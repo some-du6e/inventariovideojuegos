@@ -5,7 +5,6 @@ import { getall} from "./src/manager.js";
 
 const app = express();
 const port = 3000;
-const manager = require("./src/manager");
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
