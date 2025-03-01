@@ -2,8 +2,30 @@
   z-index: 2134321;
 }
 
-.addstuff {
-  position: sticky;
-  bottom: 0;
-  right: 0;
+.header {
+  display: flex;
+  justify-content: center;
+}
+
+#add-button {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  z-index: 1000;
+}
+.fullscreen-container {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+  min-height: 100vh; /* Full viewport height, allows expansion */
+  position: relative;
+  box-sizing: border-box;
+  padding-top: 70px; /* Adjust based on your header height */
+}
+
+body, html {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  overflow-x: hidden;
 }
