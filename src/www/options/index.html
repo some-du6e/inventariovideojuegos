@@ -12,6 +12,7 @@
       }
     }
   </script>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200&icon_names=arrow_back" />
   <script type="module">
     import '@material/web/all.js';
     import { styles as typescaleStyles } from '@material/web/typography/md-typescale-styles.js';
@@ -32,34 +33,28 @@
     href="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1f3ae.svg"
     type="image/svg"
   />
-  <title>inventario</title>
+  <title>opciones</title>
 </head>
 <body>
   <div class="fullscreen-container" id="loader">
-    <h1 style="color: white; background-color: black;">cargando cacoso</h1>
-
+    <h1 style="color: white; background-color: black">cargando cacoso</h1>
   </div>
   <div class="header">
-    <h1 class="md-typescale-display-medium" id="sigmaboytitle">inventario</h1>
-    <md-fab label="Añadir juego" id="add-button"></md-fab>
-    <md-fab label="Optiones" id="options-button"></md-fab>
+    <h1 class="md-typescale-display-medium" id="sigmaboytitle">anadir juego</h1>
   </div>
+
   
-  <md-list style="overflow: scroll !important;">
-    <md-list-item
-      type="link"
-      href="https://google.com/search?q=buy+kiwis&tbm=shop"
-      target="_blank"
-    >
-      <div slot="headline">Shop for hawk tuahs</div>
-      <div slot="supporting-text">This will link you out in a new tab</div>
-      <img
-        slot="start"
-        style="width: 56px"
-        src="https://placehold.co/114x114"
-      />
-      <i class="mdi mdi-eye-arrow-right" slot="end"></i>
-    </md-list-item>
-  </md-list>
+  <div id="please-center-div">
+    <md-filled-button id="sigma">...</md-filled-button>
+    <br>
+  <md-outlined-text-field
+    id="just-checkin"
+    label="poner 'ELIMINAR' para borrar todo"
+    placeholder="..."
+  ></md-outlined-text-field>
+  <md-filled-button id="delete">submit</md-filled-button>
+</div>
+  <md-fab label="pa tras" onclick="window.location.href = '/'" id="add-button"></md-fab>
+
   <script type="module" src="index.js"></script>
 </body>

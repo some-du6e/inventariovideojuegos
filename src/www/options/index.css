@@ -13,12 +13,6 @@
   right: 20px;
   z-index: 2;
 }
-#options-button {
-  position: fixed;
-  bottom: 20px;
-  left: 20px;
-  z-index: 2;
-}
 #loader {
   background-color: black;
   display: absolute;
@@ -39,4 +33,20 @@ body, html {
   padding: 0;
   height: 100%;
   overflow-x: hidden;
+
+}
+#please-center-div {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+  width: 100%;
+  max-width: 500px;
+  margin: 0 auto;
+  padding: 16px;
+}
+
+#please-center-div > * {
+  width: 100%;
+  margin-bottom: 8px;
 }

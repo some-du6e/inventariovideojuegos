@@ -1,0 +1,34 @@
+{
+  "games": {
+    "fortnite": [
+      {
+        "igdb_slug": "fortnite",
+        "in_stock": "12321"
+      }
+    ],
+    "tom-clancys-rainbow-six-siege": [
+      {
+        "igdb_slug": "tom-clancys-rainbow-six-siege",
+        "in_stock": "6969"
+      }
+    ],
+    "valorant": [
+      {
+        "igdb_slug": "valorant",
+        "in_stock": "100"
+      }
+    ],
+    "marvel-rivals": [
+      {
+        "igdb_slug": "marvel-rivals",
+        "in_stock": "1234"
+      }
+    ],
+    "nba-2k24": [
+      {
+        "igdb_slug": "nba-2k24",
+        "in_stock": "69"
+      }
+    ]
+  }
+}

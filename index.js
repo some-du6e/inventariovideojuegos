@@ -6,7 +6,7 @@ import lebronjames from "lebronjamesiscute"
 import express from 'express';
 import path from 'path';
 import { fileURLToPath } from 'url';
-import { getall, addgame } from './src/manager.js';
+import { getall, addgame, wipegames } from './src/manager.js';
 
 const app = express();
 const port = 3000;
@@ -49,6 +49,14 @@ app.get('/api/add', (req, res) => {
 app.get('/api/getall', (req, res) => {
   res.send(getall());
 });
+app.get("/api/wipegames", (req, res) => {
+  try {
+    wipegames()
+  } catch (error) {
+    res.status(404).send({ error: error.message });
+    
+  }
+});
 
 app.get('/api/getgameinfo', async (req, res) => {
   const query = req.query;
@@ -74,7 +82,7 @@ app.get('/api/getgameinfo', async (req, res) => {
     res.send(data);
 })
 
-});
+})  
 app.get('/api/getigdbidfromurl', async (req, res) => {
   const query = req.query;
   if (!query.url.startsWith('https://igdb.com')) {
