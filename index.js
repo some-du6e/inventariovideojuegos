@@ -62,6 +62,6 @@ app.get('/api/getigdbidfromurl', async (req, res) => {
   const fullTitle = await textSelector?.evaluate(el => el.textContent);
   res.send({ id: fullTitle });
 });
-app.listen(port, '0.0.0.0', () => {
+app.listen(port, '192.168.100.112', () => {
   console.log(`Server running at http://0.0.0.0:${port}`);
 });
