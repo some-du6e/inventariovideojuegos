@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+
+<head>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap"
+    rel="stylesheet"
+  />
+  <script type="importmap">
+    {
+      "imports": {
+        "@material/web/": "https://esm.run/@material/web/"
+      }
+    }
+  </script>
+  <script type="module">
+    import '@material/web/all.js';
+    import { styles as typescaleStyles } from '@material/web/typography/md-typescale-styles.js';
+
+    document.adoptedStyleSheets.push(typescaleStyles.styleSheet);
+  </script>
+  <link
+    href="https://fonts.googleapis.com/icon?family=Material+Icons"
+    rel="stylesheet"
+  />
+  <link rel="stylesheet" href="index.css" />
+  <link
+    href="https://cdn.jsdelivr.net/npm/@mdi/font/css/materialdesignicons.min.css"
+    rel="stylesheet"
+  />
+  <link
+    rel="icon"
+    href="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1f3ae.svg"
+    type="image/svg"
+  />
+  <title>anadir juego</title>
+</head>
+<body>
+  <div class="fullscreen-container" id="loader">
+    <h1 style="color: white; background-color: black">cargando cacoso</h1>
+  </div>
+  <div class="header">
+    <h1 class="md-typescale-display-medium" id="sigmaboytitle">anadir juego</h1>
+  </div>
+
+  <md-dialog id="igdb-info">
+    <div slot="headline">Como aggarar el link de igdb 2025</div>
+    <form slot="content" id="form-id" method="dialog">
+      1. ir a
+      <a href="https://www.igdb.com/search?utf8=%E2%9C%93&q=" target="_blank"
+        >esta pagina</a
+      ><br />
+      2. buscar el juego <br />
+      3. revisar si dice "MAIN GAME" <br />
+      4. copiar el link
+    </form>
+    <div slot="actions">
+      <md-text-button form="form-id" id="sybau">No decir me de nuevo</md-text-button>
+      <md-text-button form="form-id">Dele</md-text-button>
+    </div>
+  </md-dialog>
+
+  <md-filled-button id="dumbahh">deme info de como tener el link de igdb</md-filled-button>
+  <br> <!--brr skibidi dopdopdop-->
+  <br>
+  <md-outlined-text-field
+    id="igdb-link"
+    label="link de igdb"
+    placeholder="https://www.igdb.com/games/..."
+  ></md-outlined-text-field>
+  <md-outlined-text-field
+    id="game-stock"
+    label="cuantos hay cacoso "
+    placeholder="un million obio"
+  ></md-outlined-text-field>
+  <md-filled-button id="submit">submit</md-filled-button>
+  <script type="module" src="index.js"></script>
+</body>

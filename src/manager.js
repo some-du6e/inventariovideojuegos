@@ -1,27 +1,30 @@
-import fs from "fs";
+import fs from 'fs';
+import path from 'path';
+import { fileURLToPath } from 'url';
 
-// Function to read JSON file and convert it to a dictionary
-function jsonToDictionary(demure) {
-    const filePath = '../data.json';
-    try {
-        const data = fs.readFileSync(filePath, 'utf8');
-        const dictionary = JSON.parse(data);
-        return dictionary;
-    } catch (err) {
-        console.error('Error reading or parsing JSON file:', err);
-        return null;
-    }
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+
+function jsonToDictionary(filepath) {
+  try {
+    // Use path.join to create proper path from src directory to data.json in root
+    const absolutePath = path.join(__dirname, '..', 'data.json');
+    const data = fs.readFileSync(absolutePath, 'utf8');
+    return JSON.parse(data);
+  } catch (err) {
+    console.error('Error reading data file:', err);
+    // Return default structure to prevent null reference errors
+    return { games: {} };
+  }
 }
-
-
-
 function getall() {
-    // Example usage
-    const dictionary = jsonToDictionary('data.json');
-    console.log(dictionary["games"]);
+  const data = jsonToDictionary();
+  return data.games;
 }
-function add(name, notes, released) {
-
+function addgame(igdbslug, stock) {
+  const data = jsonToDictionary();
+  data.games[igdbslug] = stock;
+  const absolutePath = path.join(__dirname, '..', 'data.json');
+  fs.writeFileSync(absolutePath, JSON.stringify(data, null, 2));
 }
-
-export { getall };
+export {getall, addgame};

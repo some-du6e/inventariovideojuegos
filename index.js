@@ -1,8 +1,12 @@
+// ▀█▀ ▒█▀▄▀█ ▒█▀▀█ ▒█▀▀▀█ ▒█▀▀█ ▀▀█▀▀ ░█▀▀█ ▒█▄░▒█ ▀▀█▀▀ 　 ▒█▀▀█ ░█▀▀█ ▒█▀▀█ ▒█░▄▀ ░█▀▀█ ▒█▀▀█ ▒█▀▀▀ 
+// ▒█░ ▒█▒█▒█ ▒█▄▄█ ▒█░░▒█ ▒█▄▄▀ ░▒█░░ ▒█▄▄█ ▒█▒█▒█ ░▒█░░ 　 ▒█▄▄█ ▒█▄▄█ ▒█░░░ ▒█▀▄░ ▒█▄▄█ ▒█░▄▄ ▒█▀▀▀ 
+// ▄█▄ ▒█░░▒█ ▒█░░░ ▒█▄▄▄█ ▒█░▒█ ░▒█░░ ▒█░▒█ ▒█░░▀█ ░▒█░░ 　 ▒█░░░ ▒█░▒█ ▒█▄▄█ ▒█░▒█ ▒█░▒█ ▒█▄▄█ ▒█▄▄▄
+import lebronjames from "lebronjamesiscute"
+/////////////////////////
 import express from 'express';
 import path from 'path';
 import { fileURLToPath } from 'url';
-import { getall } from './src/manager.js';
-import puppeteer from 'puppeteer';
+import { getall, addgame } from './src/manager.js';
 
 const app = express();
 const port = 3000;
@@ -25,20 +29,38 @@ app.get('/api/sell', (req, res) => {
 
 app.get('/api/add', (req, res) => {
   const query = req.query;
-  console.log(query);
-  res.send(query);
+  const result = addgame(query.id, query.stock);
+  res.send(result);
 });
 
 app.get('/api/getall', (req, res) => {
-  const query = req.query;
-  console.log(query);
-  res.send(query);
+  res.send(getall());
 });
 
-app.get('/api/getgameinfo', (req, res) => {
+app.get('/api/getgameinfo', async (req, res) => {
   const query = req.query;
-  console.log(query);
-  res.send(query);
+  const gameid = query.id;
+  await fetch("https://www.igdb.com/gql", {
+    "credentials": "include",
+    "headers": {
+        "User-Agent": "Mozilla/5.0 (X11; Linux x86_64; rv:135.0) Gecko/20100101 Firefox/135.0",
+        "Accept": "*/*",
+        "Accept-Language": "en-US,en;q=0.5",
+        "content-type": "application/json",
+        "Sec-Fetch-Dest": "empty",
+        "Sec-Fetch-Mode": "cors",
+        "Sec-Fetch-Site": "same-origin",
+        "Priority": "u=4"
+    },
+    "referrer": `https://www.igdb.com/games/${gameid}`,
+    "body": `{\"operationName\":\"GetGamePageData\",\"variables\":{\"gameSlug\":\"${gameid}\"},\"query\":\"query GetGamePageData($gameSlug: String!) {\\n  game(input: {slug: $gameSlug}) {\\n    id\\n    slug\\n    name\\n    summary\\n    storyline\\n    backgroundImage\\n    disabled\\n    category\\n    categoryName\\n    editionsCount\\n    game {\\n      id\\n      slug\\n      name\\n      __typename\\n    }\\n    developers {\\n      id\\n      slug\\n      name\\n      __typename\\n    }\\n    coverSrc(imageType: \\\"cover_big\\\")\\n    genres {\\n      id\\n      name\\n      slug\\n      __typename\\n    }\\n    rating {\\n      userRating\\n      userRatingsCount\\n      criticRating\\n      criticRatingsCount\\n      __typename\\n    }\\n    isReleased\\n    platforms {\\n      id\\n      name\\n      shortcut\\n      slug\\n      __typename\\n    }\\n    wantPlayingPlayedCounts {\\n      Want\\n      Playing\\n      Played\\n      __typename\\n    }\\n    videos {\\n      id\\n      createdAt\\n      name\\n      videoId\\n      __typename\\n    }\\n    reviewsCount\\n    reviews {\\n      slug\\n      game {\\n        id\\n        __typename\\n      }\\n      user {\\n        id\\n        __typename\\n      }\\n      __typename\\n    }\\n    listEntryCounts\\n    versionParent {\\n      id\\n      name\\n      slug\\n      __typename\\n    }\\n    screenshots {\\n      id\\n      imageUrl\\n      __typename\\n    }\\n    displayReleaseDate {\\n      id\\n      releaseDate\\n      regionName\\n      category\\n      releaseDateStatus {\\n        id\\n        name\\n        __typename\\n      }\\n      __typename\\n    }\\n    formattedDisplayReleaseDate\\n    displayStatus\\n    hasPendingChange\\n    pendingLocalizedChanges {\\n      id\\n      originalId\\n      region\\n      __typename\\n    }\\n    __typename\\n  }\\n  quickListData(input: {slug: $gameSlug}) {\\n    quickListTypes {\\n      id\\n      name\\n      iconName\\n      __typename\\n    }\\n    statuses {\\n      id\\n      name\\n      iconName\\n      quickListTypeId\\n      __typename\\n    }\\n    selectedListEntry {\\n      id\\n      platforms {\\n        id\\n        __typename\\n      }\\n      listEntryStatusId\\n      list {\\n        name\\n        __typename\\n      }\\n      __typename\\n    }\\n    __typename\\n  }\\n}\"}`,
+    "method": "POST",
+    "mode": "cors"
+}).then(response => response.json()).then(data => {
+    console.log(data);
+    res.send(data);
+})
+
 });
 app.get('/api/getigdbidfromurl', async (req, res) => {
   const query = req.query;
@@ -48,32 +70,31 @@ app.get('/api/getigdbidfromurl', async (req, res) => {
     return;
   }
   var gameid = query.url.split('/')[4];
-
-  const browser = await puppeteer.launch({
-    headless: "new",
-    args: [
-      '--no-sandbox',
-      '--disable-setuid-sandbox',
-      '--disable-dev-shm-usage',
-      '--disable-accelerated-2d-canvas',
-      '--no-first-run',
-      '--no-zygote',
-      '--single-process',
-      '--disable-gpu'
-    ]
+  const response = await fetch('https://www.igdb.com/gql', {
+    credentials: 'include',
+    headers: {
+      'User-Agent':
+        'Mozilla/5.0 (X11; Linux x86_64; rv:135.0) Gecko/20100101 Firefox/135.0',
+      Accept: '*/*',
+      'Accept-Language': 'en-US,en;q=0.5',
+      'content-type': 'application/json',
+      'Sec-Fetch-Dest': 'empty',
+      'Sec-Fetch-Mode': 'cors', // cors does not work bruhh
+      'Sec-Fetch-Site': 'same-origin',
+      Priority: 'u=4',
+    },
+    referrer: `https://www.igdb.com/games/${gameid}`,
+    body: `{"operationName":"GetGamePageAboutRelatedData","variables":{"gameSlug":"${gameid}"},"query":"query GetGamePageAboutRelatedData($gameSlug: String!) {\\n  game(input: {slug: $gameSlug}) {\\n    id\\n    featuredEvents {\\n      id\\n      name\\n      slug\\n      startTime\\n      startZone\\n      eventLogo {\\n        cloudinaryId\\n        eventLogoImageId\\n        __typename\\n      }\\n      __typename\\n    }\\n    gamesBundled {\\n      id\\n      name\\n      slug\\n      coverSrc(imageType: \\"cover_big\\")\\n      displayReleaseDate {\\n        id\\n        releaseDate\\n        __typename\\n      }\\n      rating {\\n        userRating\\n        __typename\\n      }\\n      genres {\\n        id\\n        name\\n        __typename\\n      }\\n      __typename\\n    }\\n    episodes {\\n      id\\n      name\\n      slug\\n      coverSrc(imageType: \\"cover_big\\")\\n      displayReleaseDate {\\n        id\\n        releaseDate\\n        __typename\\n      }\\n      rating {\\n        userRating\\n        __typename\\n      }\\n      genres {\\n        id\\n        name\\n        __typename\\n      }\\n      __typename\\n    }\\n    __typename\\n  }\\n  similarGames(input: {slug: $gameSlug}) {\\n    coverSrc(imageType: \\"cover_big\\")\\n    genres {\\n      id\\n      name\\n      slug\\n      __typename\\n    }\\n    rating {\\n      userRating\\n      __typename\\n    }\\n    slug\\n    title\\n    __typename\\n  }\\n}"}`,
+    method: 'POST',
+    mode: 'cors',
   });
-  const page = await browser.newPage();
+  const data = await response.json();
+  var luhgameid = data.data.game.id;
+  console.log(data.data.game.id);
 
-  // Navigate the page to a URL.
-  await page.goto('https://igdb.com/game/' + gameid);
-
-  // Set screen size.
-  await page.setViewport({ width: 1080, height: 1024 });
-
-  const textSelector = await page.locator('text/IGDB ID: ').waitHandle();
-  const fullTitle = await textSelector?.evaluate(el => el.textContent);
-  res.send({ id: fullTitle });
+  // res.send({id:data.data.game.id});
+  res.send(data)
 });
 app.listen(port, '0.0.0.0', () => {
   console.log(`Server running at http://0.0.0.0:${port}`);
-});
+})

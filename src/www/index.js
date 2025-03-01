@@ -3,6 +3,25 @@ function main() {
   const loader = document.getElementById('loader');
   loader.style.display = 'none';
   console.log('Hello World!');
+  // get the games from the server
+  fetch('/api/getall')
+    .then((response) => response.json())
+    .then((data) => {
+      console.log(data);
+      const games = data.games;
+      const gamesContainer = document.getElementById('games-container');
+      games.forEach((game) => {
+        const gameElement = document.createElement('div');
+        gameElement.classList.add('game');
+        gameElement.innerHTML = `
+            <img src="${game.cover}" alt="${game.name}">
+            <h2>${game.name}</h2>
+            <p>${game.price}</p>
+            <button class="sell-button">Sell</button>
+        `;
+        gamesContainer.appendChild(gameElement);
+        });
+      });
 }
 function titlestuff() {
   const titles = [
