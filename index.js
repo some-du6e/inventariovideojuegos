@@ -2,6 +2,7 @@ import express from 'express';
 import path from 'path';
 import { fileURLToPath } from 'url';
 import { getall } from './src/manager.js';
+import puppeteer from 'puppeteer';
 
 const app = express();
 const port = 3000;
@@ -39,20 +40,28 @@ app.get('/api/getgameinfo', (req, res) => {
   console.log(query);
   res.send(query);
 });
-app.get('/api/getigdbidfromurl', (req, res) => {
+app.get('/api/getigdbidfromurl', async (req, res) => {
   const query = req.query;
-  if (
-    !query.url
-      .startsWith('https://igdb.com')
-  ) {
+  if (!query.url.startsWith('https://igdb.com')) {
     console.log('whatdaflip');
-    res.send({ error: 'what the hell is that link bruh ' });
+    res.send({ error: 'what the hell is that link bruh 😭' });
     return;
   }
+  var gameid = query.url.split('/')[4];
 
-  console.log(query);
-  res.send(query);
+  const browser = await puppeteer.launch();
+  const page = await browser.newPage();
+
+  // Navigate the page to a URL.
+  await page.goto('https://igdb.com/game/' + gameid);
+
+  // Set screen size.
+  await page.setViewport({ width: 1080, height: 1024 });
+
+  const textSelector = await page.locator('text/IGDB ID: ').waitHandle();
+  const fullTitle = await textSelector?.evaluate(el => el.textContent);
+  res.send({ id: fullTitle });
 });
-app.listen(port, () => {
-  console.log(`localhost:${port}`);
+app.listen(port, '0.0.0.0', () => {
+  console.log(`Server running at http://0.0.0.0:${port}`);
 });
