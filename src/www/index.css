@@ -11,10 +11,15 @@
   position: fixed;
   bottom: 20px;
   right: 20px;
-  z-index: 1000;
+  z-index: 2;
+}
+#loader {
+  background-color: black;
+  display: absolute;
+  z-index: 999999;
+
 }
 .fullscreen-container {
-  display: flex;
   justify-content: center;
   width: 100%;
   min-height: 100vh; /* Full viewport height, allows expansion */

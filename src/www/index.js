@@ -1,4 +1,7 @@
 function main() {
+  // get rid of loader
+  const loader = document.getElementById('loader');
+  loader.style.display = 'none';
   console.log('Hello World!');
 }
 function titlestuff() {
