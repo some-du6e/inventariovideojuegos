@@ -49,7 +49,19 @@ app.get('/api/getigdbidfromurl', async (req, res) => {
   }
   var gameid = query.url.split('/')[4];
 
-  const browser = await puppeteer.launch();
+  const browser = await puppeteer.launch({
+    headless: "new",
+    args: [
+      '--no-sandbox',
+      '--disable-setuid-sandbox',
+      '--disable-dev-shm-usage',
+      '--disable-accelerated-2d-canvas',
+      '--no-first-run',
+      '--no-zygote',
+      '--single-process',
+      '--disable-gpu'
+    ]
+  });
   const page = await browser.newPage();
 
   // Navigate the page to a URL.
