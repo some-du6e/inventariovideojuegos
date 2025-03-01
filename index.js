@@ -46,7 +46,7 @@ app.get('/api/getigdbidfromurl', (req, res) => {
       .startsWith('https://igdb.com')
   ) {
     console.log('whatdaflip');
-    res.send({ error: 'hellnah' });
+    res.send({ error: 'what the hell is that link bruh ' });
     return;
   }
 
