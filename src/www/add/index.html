@@ -12,6 +12,7 @@
       }
     }
   </script>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200&icon_names=arrow_back" />
   <script type="module">
     import '@material/web/all.js';
     import { styles as typescaleStyles } from '@material/web/typography/md-typescale-styles.js';
@@ -59,9 +60,10 @@
     </div>
   </md-dialog>
 
-  <md-filled-button id="dumbahh">deme info de como tener el link de igdb</md-filled-button>
-  <br> <!--brr skibidi dopdopdop-->
-  <br>
+  
+  <div id="please-center-div">
+    <md-filled-button id="dumbahh">deme info de como tener el link de igdb</md-filled-button>
+    <br>
   <md-outlined-text-field
     id="igdb-link"
     label="link de igdb"
@@ -73,5 +75,8 @@
     placeholder="un million obio"
   ></md-outlined-text-field>
   <md-filled-button id="submit">submit</md-filled-button>
+</div>
+  <md-fab label="pa tras" onclick="history.back()" id="add-button"></md-fab>
+
   <script type="module" src="index.js"></script>
 </body>

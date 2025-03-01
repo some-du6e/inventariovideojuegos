@@ -1,11 +1,16 @@
-
 {
-    "games": {
-        "fortnite": [
-            {
-                "igdb_slug": "fortnite",
-                "in_stock": "12321"
-            }
-        ]
-    }
+  "games": {
+    "fortnite": [
+      {
+        "igdb_slug": "fortnite",
+        "in_stock": "12321"
+      }
+    ],
+    "tom-clancys-rainbow-six-siege": [
+      {
+        "igdb_slug": "tom-clancys-rainbow-six-siege",
+        "in_stock": "6969"
+      }
+    ]
+  }
 }

@@ -50,6 +50,28 @@ function submit() {
     alert('link de igdb no valido');
     return;
   }
+  
+  const igdbslug = igdb_url.split('/')[4];
+  
+  fetch(`/api/add?igdbslug=${igdbslug}&stock=${game_stock}`)
+    .then(response => response.json())
+    .then(data => {
+      console.log(data);
+      if (data.exists) {
+        alert('cacoso ya existe');
+      }
+    })
+    .then(response => response ? response.json() : null)
+    .then(data => {
+      if (data) {
+        console.log(data);
+        alert('Juego añadido correctamente');
+      }
+    })
+    .catch(error => {
+      console.error('Error:', error);
+      alert('Error al añadir el juego');
+    });
 }
 document.addEventListener('DOMContentLoaded', main);
 document.addEventListener('DOMContentLoaded', titlestuff);

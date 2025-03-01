@@ -21,10 +21,47 @@ function getall() {
   const data = jsonToDictionary();
   return data.games;
 }
-function addgame(igdbslug, stock) {
+function addgame(igdbslug, stock, overwrite = false) {
+  // Validate inputs
+  if (!igdbslug) {
+    return { error: "Missing game ID" };
+  }
+  
   const data = jsonToDictionary();
-  data.games[igdbslug] = stock;
+  
+  // Check if game already exists
+  if (data.games[igdbslug] && data.games[igdbslug].length > 0) {
+    // If not forcing overwrite, return info about existing game
+    if (!overwrite) {
+      return { 
+        exists: true, 
+        game: igdbslug, 
+        currentEntries: data.games[igdbslug],
+        message: "Game already exists in inventory. Set overwrite=true to add anyway."
+      };
+    }
+  }
+  
+  // Initialize array if needed
+  if (!data.games[igdbslug]) {
+    data.games[igdbslug] = [];
+  }
+  
+  // Add new entry
+  data.games[igdbslug].push({
+    igdb_slug: igdbslug,
+    in_stock: stock
+  });
+  
   const absolutePath = path.join(__dirname, '..', 'data.json');
   fs.writeFileSync(absolutePath, JSON.stringify(data, null, 2));
+  
+  // Return success response
+  return { 
+    success: true, 
+    game: igdbslug, 
+    stock: stock,
+    overwritten: (overwrite && data.games[igdbslug].length > 1)
+  };
 }
 export {getall, addgame};

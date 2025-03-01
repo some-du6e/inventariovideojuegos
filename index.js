@@ -29,8 +29,21 @@ app.get('/api/sell', (req, res) => {
 
 app.get('/api/add', (req, res) => {
   const query = req.query;
-  const result = addgame(query.id, query.stock);
-  res.send(result);
+  const overwrite = query.overwrite === 'true';
+  
+  try {
+    const result = addgame(query.igdbslug, query.stock, overwrite);
+    
+    // If game exists and not forcing overwrite, return 409 Conflict
+    if (result.exists && !overwrite) {
+      return res.status(409).send(result);
+    }
+    
+    res.send(result);
+    console.log(result);
+  } catch (error) {
+    res.status(404).send({ error: error.message });
+  }
 });
 
 app.get('/api/getall', (req, res) => {
